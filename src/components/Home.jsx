@@ -27,7 +27,6 @@ export default class Home extends Component {
 
   render() {
     const { categories, loading } = this.state;
-    if (loading) { return 'Carregando...'; }
 
     return (
       <>
@@ -35,13 +34,13 @@ export default class Home extends Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h1>
         <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
-        <sidebar>
+        <aside>
           <ul>
-            { categories.map((category) => (
+            { loading ? 'Carregando' : categories.map((category) => (
               <li key={ category.id } data-testid="category">{ category.name }</li>
-            ))}
+            )) }
           </ul>
-        </sidebar>
+        </aside>
       </>
     );
   }
