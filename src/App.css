@@ -1,4 +1,4 @@
-body {
+/* body {
   background-color: #0c3344;
 }
 
@@ -7,10 +7,10 @@ body {
 }
 
 .aside-div {
-  display: flex;
-  width: 300px;
   background-color: #0c3344;
   border-radius: 10px;
+  display: flex;
+  width: 300px;
 }
 
 #ul-aside-div {
@@ -72,4 +72,4 @@ body {
   background-color: #0c3344;
   color: #7cc7c9;
   border: solid 1px #7cc7c9;
-}
+} */

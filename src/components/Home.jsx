@@ -7,14 +7,34 @@ export default class Home extends Component {
   constructor() {
     super();
 
+    this.onChangeText = this.onChangeText.bind(this);
+    this.onClickGetProducts = this.onClickGetProducts.bind(this);
+
     this.state = {
       loading: true,
       categories: [],
+      inputText: '',
+      resultApiSearch: [],
     };
   }
 
   componentDidMount() {
     this.fetchCategories();
+  }
+
+  onChangeText(event) {
+    this.setState({
+      inputText: event.target.value,
+    });
+  }
+
+  async onClickGetProducts() {
+    const { inputText } = this.state;
+    const getApi = await getProductsFromCategoryAndQuery('', inputText);
+    const resultsFromApi = getApi.results;
+    this.setState({
+      resultApiSearch: resultsFromApi,
+    });
   }
 
   fetchCategories = async () => {
@@ -26,7 +46,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const { categories, loading } = this.state;
+    const { categories, loading, inputText, resultApiSearch } = this.state;
 
     return (
       <>
@@ -62,26 +82,37 @@ export default class Home extends Component {
                 type="text"
                 data-testid="query-input"
                 placeholder="Pesquise produtos"
+                value={ inputText }
+                onChange={ this.onChangeText }
               />
               <button
                 id="button-search-products"
                 type="button"
                 data-testid="query-button"
+                onClick={ this.onClickGetProducts }
               >
                 Pesquisar
               </button>
             </div>
-            <ul>
-              {/* { loading ? 'Carregando' : getProductsFromCategoryAndQuery.map((element) => (
-                <li
-                  className="li-aside-div"
+            <section>
+              { loading ? 'Carregando' : resultApiSearch.map((element) => (
+                <div
+                  className="li-product-item"
                   key={ element.id }
-                  data-testid="category"
+                  data-testid="product"
                 >
-                  { element.name }
-                </li>
-              )) } */}
-            </ul>
+                  <img
+                    src={ element.thumbnail }
+                    alt={ element.id }
+                  />
+                  <p>
+                    {' '}
+                    R$
+                    { element.price }
+                  </p>
+                </div>
+              )) }
+            </section>
           </section>
         </main>
       </>
